@@ -1,5 +1,5 @@
 from typing import List
-from utilities import Network, Token, TokenPair
+from utilities import Network, Token
 import requests
 class GeckoProvider:
     BASE_API = 'https://api.geckoterminal.com/api/v2'

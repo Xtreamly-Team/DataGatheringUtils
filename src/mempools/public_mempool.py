@@ -70,21 +70,20 @@ def handle_event(event: HexStr):
 
 
 async def log_loop():
-    global tx_filter
+    tx_filter = web3.eth.filter('pending')
     while True:
         try:
             for event in tx_filter.get_new_entries():
                 handle_event(event)
-        except e:
-            tx_filter = web3.eth.filter('pending')
+        except Exception as e:
+            print(time.time())
+            await log_loop();
 
 def main():
     # filter for pending transactions
     loop = asyncio.get_event_loop()
     try:
-        loop.run_until_complete(
-            asyncio.gather(
-                log_loop()))
+        loop.run_until_complete(log_loop())
     finally:
         loop.close()
 

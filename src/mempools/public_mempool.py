@@ -14,6 +14,7 @@ from web3.types import LogReceipt
 # this will allow us to stream transactions
 wss = 'wss://sly-attentive-lambo.quiknode.pro/701a96b9a9b95a0ad8bac7c49dc9ccbec618108e/'
 web3 = Web3(Web3.WebsocketProvider(wss))
+tx_filter = web3.eth.filter('pending')
 
 from eth_utils import (
     to_hex,
@@ -68,21 +69,22 @@ def handle_event(event: HexStr):
         pass
 
 
-async def log_loop(event_filter: Filter, poll_interval: float):
+async def log_loop():
+    global tx_filter
     while True:
-        for event in event_filter.get_new_entries():
-            handle_event(event)
-        await asyncio.sleep(poll_interval)
-
+        try:
+            for event in tx_filter.get_new_entries():
+                handle_event(event)
+        except e:
+            tx_filter = web3.eth.filter('pending')
 
 def main():
     # filter for pending transactions
-    tx_filter = web3.eth.filter('pending')
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(
             asyncio.gather(
-                log_loop(tx_filter, 2)))
+                log_loop()))
     finally:
         loop.close()
 

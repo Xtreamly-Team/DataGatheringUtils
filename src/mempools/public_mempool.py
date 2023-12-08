@@ -12,7 +12,7 @@ from web3.types import LogReceipt
 
 # enter your web socket node credentials here
 # this will allow us to stream transactions
-wss = 'wss://frosty-young-crater.ethereum-sepolia.quiknode.pro/d59c2507c5f6767d083cc7315dfa5e58325f4e98/'
+wss = 'wss://sly-attentive-lambo.quiknode.pro/701a96b9a9b95a0ad8bac7c49dc9ccbec618108e/'
 web3 = Web3(Web3.WebsocketProvider(wss))
 
 from eth_utils import (
@@ -37,19 +37,6 @@ from typing import (
 if web3.is_connected():
     print("Connected")
 
-# ('{"blockHash": null, "blockNumber": null, "from": '
-#  '"0x2c6671BdF3749eE6d33741e3C3c2D6A23D2b9B3e", "gas": 2100000, "gasPrice": '
-#  '207555201, "maxFeePerGas": 207555201, "maxPriorityFeePerGas": 11, "hash": '
-#  '"0x0cddbb0b0f22a4452efffcf3cf4e9736859a2489760f6ea9ee96d75708701dc8", '
-#  '"input": '
-#  '"0xef16e8450000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000000c0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470000000000000000000000000100077770000000000000000000000000000000100000000000000000000000000000000000000000000000000000000004c4b400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", '
-#  '"nonce": 1503214, "to": "0x6375394335f34848b850114b66A49D6F47f2cdA8", '
-#  '"transactionIndex": null, "value": 0, "type": 2, "accessList": [], '
-#  '"chainId": 11155111, "v": 0, "r": '
-#  '"0x127e820e89528e2b4969679d5d3aafd9196ce0451129424b1d1d499ed21c4097", "s": '
-#  '"0x2a68363386f598dbc94c5737842770ccc1de595c8dca356104b546afcbe64c41", '
-#  '"yParity": 0, "timestamp": 1000}')
-
 def handle_event(event: HexStr):
     # use a try / except to have the program continue if there is a bad transaction in the list
     try:
@@ -58,6 +45,9 @@ def handle_event(event: HexStr):
         result['hash'] = transaction['hash'].hex()
         result['from'] = transaction['from']
         result['to'] = transaction['to']
+        # if (result['to'].lower() != '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD'.lower()):
+        #     print(result['to'].lower())
+        #     return
         result['input'] = transaction['input'].hex()
         result['gas'] = transaction['gas']
         result['gasPrice'] = transaction['gasPrice']

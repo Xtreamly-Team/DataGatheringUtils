@@ -5,17 +5,6 @@ import asyncio
 import json
 import time
 
-from web3._utils.filters import Filter
-from web3.types import LogReceipt
-
-
-
-# enter your web socket node credentials here
-# this will allow us to stream transactions
-wss = 'wss://sly-attentive-lambo.quiknode.pro/701a96b9a9b95a0ad8bac7c49dc9ccbec618108e/'
-web3 = Web3(Web3.WebsocketProvider(wss))
-tx_filter = web3.eth.filter('pending')
-
 from eth_utils import (
     to_hex,
     is_list_like,
@@ -32,6 +21,15 @@ from web3.datastructures import (
 from typing import (
     Dict, Any, Union, Iterable, Optional, Type
 )
+from web3._utils.filters import Filter
+from web3.types import LogReceipt
+
+
+
+wss = 'wss://sly-attentive-lambo.quiknode.pro/701a96b9a9b95a0ad8bac7c49dc9ccbec618108e/'
+web3 = Web3(Web3.WebsocketProvider(wss))
+tx_filter = web3.eth.filter('pending')
+
 
 # test to see if you are connected to your node
 # this will print out True if you are successfully connected to a node
@@ -46,9 +44,6 @@ def handle_event(event: HexStr):
         result['hash'] = transaction['hash'].hex()
         result['from'] = transaction['from']
         result['to'] = transaction['to']
-        # if (result['to'].lower() != '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD'.lower()):
-        #     print(result['to'].lower())
-        #     return
         result['input'] = transaction['input'].hex()
         result['gas'] = transaction['gas']
         result['gasPrice'] = transaction['gasPrice']
@@ -59,13 +54,8 @@ def handle_event(event: HexStr):
         result['timestamp'] = time.time()
         print(json.dumps(result));
         print("", flush=True)
-        # my_dict = dict(transaction.items())
-        # my_dict['timestamp'] = 1000
-        # pprint(to_json(my_dict))
 
     except Exception as err:
-        # print transactions with errors. Expect to see transactions people submitted with errors 
-        # print(f'error: {err}')
         pass
 
 

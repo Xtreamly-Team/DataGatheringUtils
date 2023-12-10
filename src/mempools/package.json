@@ -1,0 +1,14 @@
+{
+  "name": "mempools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "public_mempool.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^4.3.0"
+  }
+}
